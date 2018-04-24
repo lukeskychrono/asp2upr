@@ -47,6 +47,7 @@ public partial class moduls_LoginForm : System.Web.UI.UserControl
     protected void Login_Authenticate(object sender, AuthenticateEventArgs e)
     {
         int userId = 0;
+        string userName = string.Empty;
         string roles = string.Empty;
         string constr = ConfigurationManager.ConnectionStrings["ConnString"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))
@@ -60,6 +61,7 @@ public partial class moduls_LoginForm : System.Web.UI.UserControl
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 reader.Read();
+                userName = Convert.ToString(reader["Username"]);
                 userId = Convert.ToInt32(reader["UserId"]);
                 roles = reader["Roles"].ToString();
                 con.Close();
@@ -74,6 +76,7 @@ public partial class moduls_LoginForm : System.Web.UI.UserControl
                     break;
                 default:
                     Session["UserId"] = userId;
+                    Session["Username"] = userName;
                     FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, Login.UserName, DateTime.Now, DateTime.Now.AddMinutes(2880), Login.RememberMeSet, roles, FormsAuthentication.FormsCookiePath);
                     string hash = FormsAuthentication.Encrypt(ticket);
                     HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, hash);

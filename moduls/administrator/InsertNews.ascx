@@ -9,10 +9,10 @@
             <asp:TextBox ID="TextBox_Title" CssClass="form-control" runat="server"></asp:TextBox>
 
             <asp:Label ID="lblAuthor" runat="server" Text="Автор"></asp:Label>
-            <asp:TextBox ID="TextBox_Author" CssClass="form-control" runat="server"></asp:TextBox>
+            <asp:TextBox ID="TextBox_Author" CssClass="form-control" runat="server" ReadOnly="true"></asp:TextBox>
 
             <asp:Label ID="lblImage" runat="server" Text="Снимка"></asp:Label>
-            <asp:FileUpload ID="FU_Image" runat="server" />
+            <asp:FileUpload ID="FU_Image"  AllowMultiple="true" runat="server" />
 
             <asp:Label ID="lblContent" runat="server" Text="Новина"></asp:Label>
             <asp:TextBox ID="TextBox_Content" CssClass="form-control" TextMode="MultiLine" Rows="20" runat="server"></asp:TextBox>

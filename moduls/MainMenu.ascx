@@ -85,17 +85,11 @@
                                         </li>
                                     </ul>
                                 </li>
-
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <li>
+                                    <a href="~/pages/UserProfile.aspx" runat="server">
                                         <span class="glyphicon glyphicon-user"></span>
-                                        <asp:LoginName ID="LoginName1" runat="server" />
+                                        <asp:LoginName ID="LoginName2" runat="server" />
                                     </a>
-                                    <ul class="dropdown-menu" style="width: 400px;">
-                                        <li>
-                                            <my:UserInfo ID="UserInfo" runat="server" />
-                                        </li>
-                                    </ul>
                                 </li>
                                 <li>
                                     <asp:LoginStatus ID="LoginStatus1" runat="server" />
@@ -128,16 +122,11 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                 <li>
+                                    <a href="~/pages/UserProfile.aspx" runat="server">
                                         <span class="glyphicon glyphicon-user"></span>
-                                        <asp:LoginName ID="LoginName1" runat="server" />
+                                        <asp:LoginName ID="LoginName" runat="server" />
                                     </a>
-                                    <ul class="dropdown-menu" style="width: 400px;">
-                                        <li>
-                                            <my:UserInfo ID="UserInfo" runat="server" />
-                                        </li>
-                                    </ul>
                                 </li>
                                 <li>
                                     <asp:LoginStatus ID="LoginStatus1" runat="server" />
