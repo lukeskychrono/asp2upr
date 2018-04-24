@@ -109,7 +109,7 @@ public class RegisterNewUser
             mm.Subject = "Account Activation";
             string body = "Hello " + Username.Trim() + ",";
             body += "<br /><br />Please click the following link to activate your account";
-            body += "<br /><a href = '" + HttpContext.Current.Request.Url.AbsoluteUri.Replace("Register.aspx", "Login.aspx?ActivationCode=" + activationCode) + "'>Click here to activate your account.</a>";
+            body += "<br /><a href = '" + HttpContext.Current.Request.Url.AbsoluteUri.Replace("Register.aspx", "pages/ActivationPage.aspx?ActivationCode=" + activationCode) + "'>Click here to activate your account.</a>";
             body += "<br /><br />Thanks";
             mm.Body = body;
             mm.IsBodyHtml = true;

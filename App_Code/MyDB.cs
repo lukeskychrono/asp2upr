@@ -53,7 +53,35 @@ public class MyDB
         }
         catch (Exception e)
         {
+            throw new Exception(e.Message);
         }
     }
 
+    public static bool CheckActivation(string activationCode)
+    {
+        string ConnectionString = ConfigurationManager.ConnectionStrings["ConnString"].ConnectionString;
+        SqlConnection conn = new SqlConnection(ConnectionString);
+
+        try
+        {
+            int match = 0;
+
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("SELECT Id FROM UserActivation WHERE ActivationCode = @activationCode", conn);
+            cmd.Parameters.AddWithValue("@activationCode", activationCode);
+
+            match = Convert.ToInt32(cmd.ExecuteScalar());
+
+            if (match != 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
 }
