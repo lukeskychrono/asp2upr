@@ -40,7 +40,7 @@ public partial class pages_ChangePassword : System.Web.UI.Page
         {
             Page.ClientScript.RegisterStartupScript(GetType(), "script", "<script type='text/javascript'>var $span = $('<span/>'); $span.addClass('form-text').addClass('small'); $span.css('color', 'red'); $span.text('Паролата не съвпада'); $('#Content_inputPasswordOld').parent().append($span);</script>");
         }
-        else if (inputPasswordNew.Text != inputPasswordNewVerify.Text)
+        else if (inputPasswordNew.Text != inputPasswordNewVerify.Text || inputPasswordNew.Text == "")
         {
             Page.ClientScript.RegisterStartupScript(GetType(), "script", "<script type='text/javascript'>var $span = $('<span/>'); $span.addClass('form-text').addClass('small'); $span.css('color', 'red'); $span.text('Новите пароли не съвпадат'); $('#Content_inputPasswordNew').parent().append($span);</script>");
         }
