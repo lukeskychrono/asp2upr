@@ -65,6 +65,7 @@ public class MyDB
         }
         catch (Exception e)
         {
+            throw new Exception(e.Message);
         }
     }
     public static void CreateProject(string title, string subheading, string description, string details, System.Web.UI.WebControls.FileUpload FU_Image)
@@ -87,6 +88,7 @@ public class MyDB
                         string FileName = Path.GetFileName(uploadedFile.FileName);
 
                         string rename = guid + FileName.Replace(" ", "_");
+
 
                         uploadedFile.SaveAs(System.Web.HttpContext.Current.Server.MapPath("~/pages/projects/projectimages/" + rename));
                         if (uploadedFile.Equals(last))
@@ -117,6 +119,34 @@ public class MyDB
                 cmd.ExecuteNonQuery();
             }
             conn.Close();
+        }
+        catch (e)
+        {
+        	throw new Exception(e.Message);
+        }
+    }
+
+    public static bool CheckActivation(string activationCode)
+    {
+        string ConnectionString = ConfigurationManager.ConnectionStrings["ConnString"].ConnectionString;
+        SqlConnection conn = new SqlConnection(ConnectionString);
+
+        try
+        {
+            int match = 0;
+
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("SELECT Id FROM UserActivation WHERE ActivationCode = @activationCode", conn);
+            cmd.Parameters.AddWithValue("@activationCode", activationCode);
+
+            match = Convert.ToInt32(cmd.ExecuteScalar());
+
+            if (match != 0)
+            {
+                return true;
+            }
+
+            return false;
         }
         catch (Exception e)
         {

@@ -22,8 +22,10 @@ public class RegisterNewUser
 
     public RegisterNewUser(System.Web.UI.WebControls.TextBox Username, System.Web.UI.WebControls.TextBox Password, System.Web.UI.WebControls.TextBox UserEmail, string YourEmailAddres, string YourEmailPassword)
     {
+        string hash = Global.HashPassword(Password.Text.Trim());
+
         this.Username = Username.Text.Trim();
-        this.Password = Password.Text.Trim();
+        this.Password = hash;
         this.UserEmail = UserEmail.Text.Trim();
         this.YourEmailAddres = YourEmailAddres;
         this.YourEmailPassword = YourEmailPassword;
@@ -109,7 +111,7 @@ public class RegisterNewUser
             mm.Subject = "Account Activation";
             string body = "Hello " + Username.Trim() + ",";
             body += "<br /><br />Please click the following link to activate your account";
-            body += "<br /><a href = '" + HttpContext.Current.Request.Url.AbsoluteUri.Replace("Register.aspx", "Login.aspx?ActivationCode=" + activationCode) + "'>Click here to activate your account.</a>";
+            body += "<br /><a href = '" + HttpContext.Current.Request.Url.AbsoluteUri.Replace("Register.aspx", "pages/ActivationPage.aspx?ActivationCode=" + activationCode) + "'>Click here to activate your account.</a>";
             body += "<br /><br />Thanks";
             mm.Body = body;
             mm.IsBodyHtml = true;
