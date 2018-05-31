@@ -7,10 +7,10 @@
     <my:MainMenu ID="MainMenu" runat="server" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" Runat="Server">
-    <div class="content py-5  bg-secondary col-md-offset-3">
+    <div class="content py-5 l-pwd-form-container bg-secondary col-md-offset-3">
 <div class="container">
 	<div class="row">
-		<div class="col-md-6 offset-md-3">
+		<div class="col-md-6 offset-md-3 l-pwd-container">
                     <span class="anchor" id="formChangePassword"></span>
                     <hr class="mb-5" />
 
@@ -38,7 +38,7 @@
                                     </span>
                                 </div>
                                 <div class="form-group">
-                                    <asp:Button runat="server" CssClass="btn btn-success pull-right" Text="Промяна" ID="NewPasswordBtn" OnClick="NewPasswordBtn_Click"/>
+                                    <asp:Button runat="server" CssClass="btn btn-success pull-right" Text="Промяна" ID="NewPasswordBtn" OnClick="NewPasswordBtn_Click" UseSubmitBehavior="false"/>
                                 </div>
                             </form>
                         </div>

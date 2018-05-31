@@ -67,9 +67,10 @@ public partial class moduls_LoginForm : System.Web.UI.UserControl
             }
         }
 
-        if (!Global.VerifyHashedPassword(DBPassword, Login.Password))
+        if (Global.VerifyHashedPassword(DBPassword, Login.Password) == false)
         {
-            Login.FailureText = "Username and/or password is incorrect."; ;
+            Login.FailureText = "Username and/or password is incorrect.";
+            Page.ClientScript.RegisterStartupScript(GetType(), "script", "<script type='text/javascript'>$('.l-login-btn').trigger('click')</script>");
         }
         else
         {
@@ -111,6 +112,8 @@ public partial class moduls_LoginForm : System.Web.UI.UserControl
                         Response.Cookies.Add(cookie);
 
                         Response.Redirect(FormsAuthentication.GetRedirectUrl(Login.UserName, Login.RememberMeSet));
+
+                        Page.ClientScript.RegisterStartupScript(GetType(), "script", "<script type='text/javascript'>function logout() { if ($(this).text() == 'Logout') {window.location.href('~/Default.aspx');}}  $('body').on('click', '.l-login-btn', logout)</script>");
 
                         break;
                 }

@@ -7,21 +7,20 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "asp2upr(1)", ".", "{4DBA6EF
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.2"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_58925"
-		Debug.AspNetCompiler.PhysicalPath = "..\asp2upr\"
+		Debug.AspNetCompiler.PhysicalPath = "E:\WORK\ASP2\asp2upr\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58925\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/localhost_58925"
-		Release.AspNetCompiler.PhysicalPath = "..\asp2upr\"
+		Release.AspNetCompiler.PhysicalPath = "E:\WORK\ASP2\asp2upr\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58925\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "58925"
-		SlnRelativePath = "..\asp2upr\"
 	EndProjectSection
 EndProject
 Global
@@ -36,6 +35,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {959A4CF7-CEFC-46CD-9525-221C244D93C2}
+		SolutionGuid = {791374F1-31E7-4A70-A5C0-C90C364A32AB}
 	EndGlobalSection
 EndGlobal
