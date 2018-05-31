@@ -22,8 +22,10 @@ public class RegisterNewUser
 
     public RegisterNewUser(System.Web.UI.WebControls.TextBox Username, System.Web.UI.WebControls.TextBox Password, System.Web.UI.WebControls.TextBox UserEmail, string YourEmailAddres, string YourEmailPassword)
     {
+        string hash = Global.HashPassword(Password.Text.Trim());
+
         this.Username = Username.Text.Trim();
-        this.Password = Password.Text.Trim();
+        this.Password = hash;
         this.UserEmail = UserEmail.Text.Trim();
         this.YourEmailAddres = YourEmailAddres;
         this.YourEmailPassword = YourEmailPassword;

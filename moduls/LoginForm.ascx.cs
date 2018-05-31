@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
 using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Security;
+using System.Security.Cryptography;
 
 public partial class moduls_LoginForm : System.Web.UI.UserControl
 {
@@ -44,52 +44,76 @@ public partial class moduls_LoginForm : System.Web.UI.UserControl
         }
     }
 
-    protected void Login_Authenticate(object sender, AuthenticateEventArgs e)
+    protected void Login_Authenticate(object sender, EventArgs e)
     {
         int userId = 0;
         string userName = string.Empty;
         string roles = string.Empty;
         string constr = ConfigurationManager.ConnectionStrings["ConnString"].ConnectionString;
+        string DBPassword = "";
+
         using (SqlConnection con = new SqlConnection(constr))
         {
-            using (SqlCommand cmd = new SqlCommand("Validate_User"))
+            using (SqlCommand cmd = new SqlCommand("SELECT Password FROM Users WHERE Username = @Username"))
             {
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@Username", Login.UserName);
-                cmd.Parameters.AddWithValue("@Password", Login.Password);
                 cmd.Connection = con;
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 reader.Read();
-                userName = Convert.ToString(reader["Username"]);
-                userId = Convert.ToInt32(reader["UserId"]);
-                roles = reader["Roles"].ToString();
+                DBPassword = Convert.ToString(reader["Password"]);
                 con.Close();
             }
-            switch (userId)
+        }
+
+        if (!Global.VerifyHashedPassword(DBPassword, Login.Password))
+        {
+            Login.FailureText = "Username and/or password is incorrect."; ;
+        }
+        else
+        {
+            using (SqlConnection con = new SqlConnection(constr))
             {
-                case -1:
-                    Login.FailureText = "Username and/or password is incorrect.";
-                    break;
-                case -2:
-                    Login.FailureText = "Account has not been activated.";
-                    break;
-                default:
-                    Session["UserId"] = userId;
-                    Session["Username"] = userName;
-                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, Login.UserName, DateTime.Now, DateTime.Now.AddMinutes(2880), Login.RememberMeSet, roles, FormsAuthentication.FormsCookiePath);
-                    string hash = FormsAuthentication.Encrypt(ticket);
-                    HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, hash);
+                using (SqlCommand cmd = new SqlCommand("Validate_User"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Username", Login.UserName);
+                    cmd.Parameters.AddWithValue("@Password", DBPassword);
+                    cmd.Connection = con;
+                    con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    userName = Convert.ToString(reader["Username"]);
+                    userId = Convert.ToInt32(reader["UserId"]);
+                    roles = reader["Roles"].ToString();
+                    con.Close();
+                }
+                switch (userId)
+                {
+                    case -1:
+                        Login.FailureText = "Username and/or password is incorrect.";
+                        break;
+                    case -2:
+                        Login.FailureText = "Account has not been activated.";
+                        break;
+                    default:
+                        Session["UserId"] = userId;
+                        Session["Username"] = userName;
+                        FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, Login.UserName, DateTime.Now, DateTime.Now.AddMinutes(2880), Login.RememberMeSet, roles, FormsAuthentication.FormsCookiePath);
+                        string hash = FormsAuthentication.Encrypt(ticket);
+                        HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, hash);
 
-                    if (ticket.IsPersistent)
-                    {
-                        cookie.Expires = ticket.Expiration;
-                    }
-                    Response.Cookies.Add(cookie);
-                    
-                    Response.Redirect(FormsAuthentication.GetRedirectUrl(Login.UserName, Login.RememberMeSet));
+                        if (ticket.IsPersistent)
+                        {
+                            cookie.Expires = ticket.Expiration;
+                        }
+                        Response.Cookies.Add(cookie);
 
-                    break;
+                        Response.Redirect(FormsAuthentication.GetRedirectUrl(Login.UserName, Login.RememberMeSet));
+
+                        break;
+                }
             }
         }
     }

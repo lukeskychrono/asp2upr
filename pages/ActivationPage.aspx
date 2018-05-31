@@ -21,7 +21,7 @@
     <div class="alert alert-danger l-act l-activation-failure fade in" style="display: none">
         <a href="#" class="close" data-dismiss="alert">&times;</a>
         <div style="text-align: center;">
-            <strong>Error!</strong> <br> Sorry. Activation link expired. </br>
+            <strong>Error!</strong> <br> Sorry. Activation link has expired. </br>
         </div>
     </div>
 </asp:Content>
