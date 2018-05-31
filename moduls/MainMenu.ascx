@@ -83,6 +83,9 @@
                                         <li>
                                             <a href="~/pages/administrator/DBUser.aspx" runat="server">Manage Users</a>
                                         </li>
+                                        <li>
+                                            <a href="~/pages/administrator/CreateProject.aspx" runat="server">Create Projects</a>
+                                        </li>
                                     </ul>
                                 </li>
 

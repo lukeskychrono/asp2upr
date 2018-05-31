@@ -9,15 +9,17 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="Server">
     <!-- Page Content -->
     <div class="container">
+        <asp:ListView ID="ProjectArticle" runat="server" DataSourceID="ProjectArticleDB">
+            <ItemTemplate>
         <!-- Page Heading/Breadcrumbs -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Portfolio Item
+                <h1 class="page-header"><%#Eval("Title") %>
                    
-                    <small>Subheading</small>
+                    <small><%#Eval("Subheading") %></small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="index.html">Home</a>
+                    <li><a href="Default.aspx">Home</a>
                     </li>
                     <li class="active">Portfolio Item</li>
                 </ol>
@@ -37,13 +39,13 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner">
                         <div class="item active">
-                            <img class="img-responsive" src="~/template_images/Projects/ProjectArticle/ProjectArticle1.jpg" alt="" runat="server"/>
+                            <img class="img-responsive" src='<%# Eval("Images").ToString().Split(new string[] { "\",\"" }, StringSplitOptions.None)[0] %>' alt="" runat="server"/>
                         </div>
                         <div class="item">
-                            <img class="img-responsive" src="~/template_images/Projects/ProjectArticle/ProjectArticle2.jpg" alt="" runat="server"/>
+                            <img class="img-responsive" src='<%# Eval("Images").ToString().Split(new string[] { "\",\"" }, StringSplitOptions.None)[1] %>' alt="" runat="server"/>
                         </div>
                         <div class="item">
-                            <img class="img-responsive" src="~/template_images/Projects/ProjectArticle/ProjectArticle3.jpg" alt="" runat="server"/>
+                            <img class="img-responsive" src='<%# Eval("Images").ToString().Split(new string[] { "\",\"" }, StringSplitOptions.None)[0] %>' alt="" runat="server"/>
                         </div>
                     </div>
                     <!-- Controls -->
@@ -57,48 +59,44 @@
             </div>
 
             <div class="col-md-4">
-                <h3>Project Description</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
-                <h3>Project Details</h3>
-                <ul>
-                    <li>Lorem Ipsum</li>
-                    <li>Dolor Sit Amet</li>
-                    <li>Consectetur</li>
-                    <li>Adipiscing Elit</li>
-                </ul>
+                <h3><%#Eval("Description") %></h3>
+                <h3><%#Eval("ProjectDetails") %></h3>
             </div>
         </div>
         <!-- /.row -->
 
-        <!-- Related Projects Row -->
+            </ItemTemplate>
+        </asp:ListView>
+        <asp:SqlDataSource ID="ProjectArticleDB" runat="server" ConnectionString='<%$ ConnectionStrings:ConnString %>' DataSourceMode="DataReader"
+            SelectCommand="SELECT * FROM [Projects] WHERE ([Id] = @Id)">
+            <SelectParameters>
+                <asp:SessionParameter Name="Id" SessionField="ProjectID" Type="Int32" />
+            </SelectParameters>
+        </asp:SqlDataSource>
+         <!-- Related Projects Row -->
         <div class="row">
 
             <div class="col-lg-12">
                 <h3 class="page-header">Related Projects</h3>
             </div>
+        <asp:ListView ID="RelatedProjects" runat="server" DataSourceID="RelatedProjectsDB">
+            <ItemTemplate>
+        
             <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive img-hover img-related" src="~/template_images/Projects/Project2.jpg" alt="" runat="server"/>
+                <a href="#" runat="server">
+                    <img class="img-responsive img-hover img-related" src='<%# Eval("Images").ToString().Split(new string[] { "\",\"" }, StringSplitOptions.None)[0] %>' alt="" runat="server"/>
                 </a>
-            </div>
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive img-hover img-related" src="~/template_images/Projects/Project3.jpg" alt="" runat="server"/>
-                </a>
-            </div>
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive img-hover img-related" src="~/template_images/Projects/Project4.png" alt="" runat="server"/>
-                </a>
-            </div>
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive img-hover img-related" src="~/template_images/Projects/Project5.jpg" alt="" runat="server"/>
-                </a>
+        <!-- /.row -->
+                </ItemTemplate>
+        </asp:ListView>
+            <asp:SqlDataSource ID="RelatedProjectsDB" runat="server" ConnectionString='<%$ ConnectionStrings:ConnString %>' DataSourceMode="DataReader"
+            SelectCommand="SELECT * FROM [Projects] WHERE ([Id] < @Id + 2 ) AND ( [Id] != @Id) AND ([Id] > @Id - 2 )">
+            <SelectParameters>
+                <asp:SessionParameter Name="Id" SessionField="ProjectID" Type="Int32" />
+            </SelectParameters>
+             </asp:SqlDataSource>
             </div>
         </div>
-        <!-- /.row -->
-    </div>
     <!-- /.container -->
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Footer" runat="Server">

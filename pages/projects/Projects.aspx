@@ -23,125 +23,43 @@
             </div>
         </div>
         <!-- /.row -->
-        <!-- Project One -->
-        <div class="row">
-            <div class="col-md-7">
-                <a href="ProjectArticle.aspx" runat="server">
-                    <img class="img-responsive img-hover" src="~/template_images/Projects/Project1.jpg" alt="" runat="server"/>
-                </a>
+    <asp:ListView ID="AllProjects" runat="server" DataSourceID="ProjectsDB" DataKeyNames="ID">
+        <ItemTemplate>
+                <!-- Project One -->
+            <div class="row">
+                <div class="col-md-7">
+                    <a href="ProjectArticle.aspx" runat="server">
+                        <img class="img-responsive img-hover" src='<%# Eval("Images").ToString().Split(new string[] { "\",\"" }, StringSplitOptions.None)[0] %>' alt="" runat="server"/>
+                    </a>
+                </div>
+                <div class="col-md-5">
+                    <h3><%#Eval("Title") %></h3>
+                    <h4><%#Eval("Subheading") %></h4>
+                    <p><%#Eval("Description") %></p>
+                    <asp:Button ID="ProjectArticle" CommandArgument='<%# Eval("ID") %>' runat="server" Text="View Project" CssClass="btn btn-primary" OnClick="ProjectArticleOnClick" />
+                </div>
             </div>
-            <div class="col-md-5">
-                <h3>Project One</h3>
-                <h4>Subheading</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium veniam exercitationem expedita laborum at voluptate. Labore, voluptates totam at aut nemo deserunt rem magni pariatur quos perspiciatis atque eveniet unde.</p>
-                <a class="btn btn-primary" href="ProjectArticle.aspx" runat="server">View Project</a>
-            </div>
-        </div>
-        <!-- /.row -->
+            <!-- /.row -->
 
-        <hr/>
+            <hr/>
 
-        <!-- Project Two -->
-        <div class="row">
-            <div class="col-md-7">
-                <a href="ProjectArticle.aspx" runat="server">
-                    <img class="img-responsive img-hover" src="~/template_images/Projects/Project2.jpg" alt="" runat="server"/>
-                </a>
-            </div>
-            <div class="col-md-5">
-                <h3>Project Two</h3>
-                <h4>Subheading</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, odit velit cumque vero doloremque repellendus distinctio maiores rem expedita a nam vitae modi quidem similique ducimus! Velit, esse totam tempore.</p>
-                <a class="btn btn-primary" href="ProjectArticle.aspx" runat="server">View Project</a>
-            </div>
-        </div>
-        <!-- /.row -->
-
-        <hr/>
-
-        <!-- Project Three -->
-        <div class="row">
-            <div class="col-md-7">
-                <a href="ProjectArticle.aspx" runat="server">
-                    <img class="img-responsive img-hover" src="~/template_images/Projects/Project3.jpg" alt="" runat="server"/>
-                </a>
-            </div>
-            <div class="col-md-5">
-                <h3>Project Three</h3>
-                <h4>Subheading</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis, temporibus, dolores, at, praesentium ut unde repudiandae voluptatum sit ab debitis suscipit fugiat natus velit excepturi amet commodi deleniti alias possimus!</p>
-                <a class="btn btn-primary" href="ProjectArticle.aspx" runat="server">View Project</a>
-            </div>
-        </div>
-        <!-- /.row -->
-
-        <hr/>
-
-        <!-- Project Four -->
-        <div class="row">
-
-            <div class="col-md-7">
-                <a href="ProjectArticle.aspx" runat="server">
-                    <img class="img-responsive img-hover" src="~/template_images/Projects/Project4.jpg" alt="" runat="server"/>
-                </a>
-            </div>
-            <div class="col-md-5">
-                <h3>Project Four</h3>
-                <h4>Subheading</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, quidem, consectetur, officia rem officiis illum aliquam perspiciatis aspernatur quod modi hic nemo qui soluta aut eius fugit quam in suscipit?</p>
-                <a class="btn btn-primary" href="ProjectArticle.aspx" runat="server">View Project</a>
-            </div>
-        </div>
-        <!-- /.row -->
-
-        <hr/>
-
-        <!-- Project Five -->
-        <div id="Project5" class="row">
-            <div class="col-md-7">
-                <a href="#">
-                    <img class="img-responsive img-hover" src="~/template_images/Projects/Project5.jpg" alt="" runat="server"/>
-                </a>
-            </div>
-            <div class="col-md-5">
-                <h3>Project Five</h3>
-                <h4>Subheading</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, quo, minima, inventore voluptatum saepe quos nostrum provident ex quisquam hic odio repellendus atque porro distinctio quae id laboriosam facilis dolorum.</p>
-                <a class="btn btn-primary" href="#">View Project</a>
-            </div>
-        </div>
-        <!-- /.row -->
-
-        <hr/>
-
+        </ItemTemplate>  
+    </asp:ListView>
+        <asp:SqlDataSource runat="server"  ID="ProjectsDB" ConnectionString='<%$ ConnectionStrings:ConnString %>' SelectCommand="SELECT * FROM [Projects] ORDER BY [CreateDate] DESC"></asp:SqlDataSource>
         <!-- Pagination -->
-        <div class="row text-center">
-            <div class="col-lg-12">
-                <ul class="pagination">
-                    <li>
-                        <a href="#">&laquo;</a>
-                    </li>
-                    <li class="active">
-                        <a href="#">1</a>
-                    </li>
-                    <li>
-                        <a href="#">2</a>
-                    </li>
-                    <li>
-                        <a href="#">3</a>
-                    </li>
-                    <li>
-                        <a href="#">4</a>
-                    </li>
-                    <li>
-                        <a href="#">5</a>
-                    </li>
-                    <li>
-                        <a href="#">&raquo;</a>
-                    </li>
-                </ul>
+        <div class="container">
+        <div class="row">
+            <div class="pager">
+                <asp:DataPager ID="DP_Projects" runat="server" PagedControlID="AllProjects" PageSize="3">
+                    <Fields>
+                        <asp:NextPreviousPagerField ButtonType="Link" ShowNextPageButton="false" PreviousPageText="Предишна" ShowFirstPageButton="true" FirstPageText="Първа" ButtonCssClass="previous" />
+                        <asp:NumericPagerField ButtonType="Link" ButtonCount="10" NumericButtonCssClass="pagination" />
+                        <asp:NextPreviousPagerField ButtonType="Link" ShowPreviousPageButton="false" NextPageText="Следваща" ShowLastPageButton="true" LastPageText="Последна" ButtonCssClass="next" />
+                    </Fields>
+                </asp:DataPager>
             </div>
         </div>
+    </div>
         <!-- /.row -->
         </div>
         <hr/>

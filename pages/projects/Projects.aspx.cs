@@ -11,4 +11,12 @@ public partial class pages_projects_Projects : System.Web.UI.Page
     {
 
     }
+    
+    protected void ProjectArticleOnClick(object sender, EventArgs e)
+    {
+
+        Session["ProjectID"] = ((Button)sender).CommandArgument;
+
+        Response.Redirect("~/pages/projects/ProjectArticle.aspx");
+    }
 }

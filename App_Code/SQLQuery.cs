@@ -17,6 +17,9 @@ public class SQLQuery
     /// Insert Activation code for new registered user
     /// </summary>
     public const string InsertActivationCode = "INSERT INTO UserActivation VALUES(@UserId, @ActivationCode)";
-    
 
+    /// <summary>
+    /// Insert a new project
+    /// </summary>
+    public const string CreateProject = "Insert into projects(Title, Description, ProjectDetails, CreateDate, Images, Subheading) VALUES (@Title, @Description, @ProjectDetails, @CreateDate, @Images, @Subheading)";
 }

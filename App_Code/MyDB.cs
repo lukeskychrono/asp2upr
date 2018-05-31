@@ -22,19 +22,31 @@ public class MyDB
 
         try
         {
-            if (FU_Image.PostedFile != null)
+            if (FU_Image.HasFiles)
             {
-                string fileExtention = Path.GetExtension(FU_Image.FileName.ToLower());
-                if (fileExtention == ".jpeg" || fileExtention == ".jpg" || fileExtention == ".png")
+                HttpPostedFile last = FU_Image.PostedFiles.Last();
+                foreach (HttpPostedFile uploadedFile in FU_Image.PostedFiles)
                 {
-                    string FileName = Path.GetFileName(FU_Image.PostedFile.FileName);
+                    string fileExtention = Path.GetExtension(uploadedFile.FileName.ToLower());
+                    if (fileExtention == ".jpeg" || fileExtention == ".jpg" || fileExtention == ".png")
+                    {
+                        string FileName = Path.GetFileName(uploadedFile.FileName);
 
-                    string rename = guid + FileName.Replace(" ", "_");
+                        string rename = guid + FileName.Replace(" ", "_");
 
-                    FU_Image.SaveAs(System.Web.HttpContext.Current.Server.MapPath("~/pages/news/newsimages/" + rename));
-
-                    url = "~/pages/news/newsimages/" + rename;
+                        uploadedFile.SaveAs(System.Web.HttpContext.Current.Server.MapPath("~/pages/news/newsimages/" + rename));
+                        if(uploadedFile.Equals(last))
+                        {
+                            url += "~/pages/news/newsimages/" + rename;
+                        }
+                        else
+                        {
+                            url += "~/pages/news/newsimages/" + rename + "\",\"";
+                        }
+                     
+                    }
                 }
+                
             }
             conn.Open();
             using (SqlCommand cmd = new SqlCommand())
@@ -55,5 +67,60 @@ public class MyDB
         {
         }
     }
+    public static void CreateProject(string title, string subheading, string description, string details, System.Web.UI.WebControls.FileUpload FU_Image)
+    {
+        Guid guid = Guid.NewGuid();
+        string url = "";
+        string ConnectionString = ConfigurationManager.ConnectionStrings["ConnString"].ConnectionString;
+        SqlConnection conn = new SqlConnection(ConnectionString);
 
+        try
+        {
+            if (FU_Image.HasFiles)
+            {
+                HttpPostedFile last = FU_Image.PostedFiles.Last();
+                foreach (HttpPostedFile uploadedFile in FU_Image.PostedFiles)
+                {
+                    string fileExtention = Path.GetExtension(uploadedFile.FileName.ToLower());
+                    if (fileExtention == ".jpeg" || fileExtention == ".jpg" || fileExtention == ".png")
+                    {
+                        string FileName = Path.GetFileName(uploadedFile.FileName);
+
+                        string rename = guid + FileName.Replace(" ", "_");
+
+                        uploadedFile.SaveAs(System.Web.HttpContext.Current.Server.MapPath("~/pages/projects/projectimages/" + rename));
+                        if (uploadedFile.Equals(last))
+                        {
+                            url += "~/pages/projects/projectimages/" + rename;
+                        }
+                        else
+                        {
+                            url += "~/pages/projects/projectimages/" + rename + "\",\"";
+                        }
+
+                    }
+                }
+
+            }
+            conn.Open();
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = SQLQuery.CreateProject;
+                cmd.Parameters.AddWithValue("@Title", title);
+                cmd.Parameters.AddWithValue("@Description", description);
+                cmd.Parameters.AddWithValue("@ProjectDetails", details);
+                cmd.Parameters.AddWithValue("@CreateDate", String.Format("{0:d/M/yyyy HH:mm:ss}", DateTime.Now));
+                cmd.Parameters.AddWithValue("@Images", url);
+                cmd.Parameters.AddWithValue("@Subheading", subheading);
+                cmd.ExecuteNonQuery();
+            }
+            conn.Close();
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
 }

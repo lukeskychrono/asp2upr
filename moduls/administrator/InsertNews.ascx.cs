@@ -14,7 +14,8 @@ public partial class moduls_InsertNews : System.Web.UI.UserControl
     }
 
     protected void ButtonInsert_Click(object sender, EventArgs e)
-    { 
+    {
+        
         MyDB.Insert(TextBox_Title.Text, TextBox_Author.Text, TextBox_Content.Text, FU_Image);
         Response.Redirect("~/Default.aspx");
     }
