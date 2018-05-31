@@ -120,7 +120,7 @@ public class MyDB
             }
             conn.Close();
         }
-        catch (e)
+        catch (Exception e)
         {
         	throw new Exception(e.Message);
         }
